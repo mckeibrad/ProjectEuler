@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
    sumDays = 0;
    for (i = 0; i < 7; i++) { dowCount[i] = 0; }
    Day = 1;
-   for (Year = 2000; Year >= 1800; Year--) {
+   for (Year = 2000; Year >= 1901; Year--) {
       mdays[2] = (Year%400 == 0 || (Year%4 == 0 && Year%100 != 0)) ? 29 : 28;
       for (Month = 12; Month >= 1; Month--) {
          for (Day = 1; Day >= 1; Day--) {
