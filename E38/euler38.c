@@ -26,51 +26,40 @@
 
 static unsigned int count,pdsum;
 static short dv[10];
-unsigned long powers[] = {
-   100000000,10000000,1000000,100000,10000,1000,100,10,1};
+static unsigned int powers[] = {1,10,100,1000,10000,100000,1000000};
 
 void zeroDv(void)
 {
    for (int i = 1; i < 10; i++) dv[i] = 0;
    dv[0] = 99;
-   count = 0;
-   pdsum = 0;
+   count = pdsum = 0;
 }
 
 unsigned int stillpan(int prod)
 {
    int n = 0;
-   int digits[10];
    int ps = prod;
    
    while (prod > 0) {
-      digits[n] = prod%10;
-      if (dv[digits[n]]++ > 0) return(10);
+      if (dv[prod%10]++ > 0) return(10);
       prod /= 10;
       n++;
    }
-   if (pdsum > 0) {
-      for (int i=n-1; i>=0; i--) pdsum = pdsum*10+digits[i];
-   }
-   else {
-      pdsum = ps;
-   }
+   pdsum = pdsum*powers[n]+ps;
    return(n);
 }
 
 int main(int argc,char *argv[])
 {
    int i,n;
-   unsigned long maxPdSum;
-
-   maxPdSum = 0;
+   unsigned long maxPdSum = 0;
 
    for (n = 2; n<9877; n++) {
       zeroDv();
       i = 0;
-      do {
+      while (count < 9) {
          count += stillpan(++i*n);
-      } while (count < 9);
+      }
       if (count == 9) {
          if (pdsum > maxPdSum) maxPdSum = pdsum;
          printf("%4d*(1-%d) is %ld   Max: %ld\n",n,i,pdsum, maxPdSum);
